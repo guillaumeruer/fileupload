@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <label for="upload" class="button">upload</label>
+    <input type="file" style="visibility:hidden" id="upload" accept=".json,.csv" @change="onFileUpload">
+    <label for="upload-sql" class="button">upload vers s3</label>
+    <input type="file" style="visibility:hidden" id="upload-sql" accept=".sql" @change="onFileUpload">
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  methods: {
+    onFileUpload: function(event) {
+      let file = event.target.files[0];
+      let formData = new FormData();
+      formData.append('file', file);
+      this.uploadFile(formData);
+    },
+    uploadFile: function(file) {
+      fetch('url', {
+        method: 'POST',
+        body: file,
+      })
+      .then(res => res.json())
+      .then(success => console.log(success))
+      .catch(error => console.error('Error @uploadFile : ' + error));
+    }
   }
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .button {
+    font-size: 1rem;
+    font-family: sans-serif;
+    color: #fff;
+    background: #219ebc;
+    padding: .5rem 2rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  }
+  .button:hover {
+    background: #15768f;
+  }
 </style>
