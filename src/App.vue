@@ -13,6 +13,7 @@ export default {
   methods: {
     onFileUpload: function(event) {
       let file = event.target.files[0];
+      console.log('test');
       let formData = new FormData();
       formData.append('file', file);
       this.uploadFile(formData);
