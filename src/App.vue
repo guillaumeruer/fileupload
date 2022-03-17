@@ -14,6 +14,7 @@ export default {
     onFileUpload: function(event) {
       let file = event.target.files[0];
       console.log('test');
+      console.log(file);
       let formData = new FormData();
       formData.append('file', file);
       this.uploadFile(formData);
